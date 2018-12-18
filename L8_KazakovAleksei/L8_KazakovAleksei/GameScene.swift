@@ -27,7 +27,13 @@ class GameScene: SKScene {
         let apple = Apple(position: CGPoint(x: randX, y: randY))
         self.addChild(apple)
     }
+    
+    func createSnake () {
+        snake = Snake(atPoint: CGPoint(x: view!.scene!.frame.midX, y: view!.scene!.frame.midY))
+        self.addChild(snake!)
+    }
 
+  
     
     override func didMove(to view: SKView) {
         
@@ -62,8 +68,7 @@ class GameScene: SKScene {
         createApple()
         
         //snake
-        snake = Snake(atPoint: CGPoint(x: view.scene!.frame.midX, y: view.scene!.frame.midY))
-        self.addChild(snake!)
+        createSnake()
     }
     
 
@@ -124,9 +129,11 @@ extension GameScene: SKPhysicsContactDelegate {
             apple?.removeFromParent()
             createApple()
         case CollisionCategories.EdgeBody:
-            break
+            snake?.removeFromParent()
+            createSnake()
         default:
             break
         }
     }
 }
+
